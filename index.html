@@ -5,25 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Story Archive</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Loaded Courier Prime and Roboto Mono -->
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Roboto+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
-    <!-- External CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- HEADER -->
     <header class="archive-header">
         <div class="logo-area">
-            My Library books 
+          My Library Books
         </div>
     </header>
 
-    <!-- ACTION BAR -->
     <div class="action-bar">
         <button id="toggleFormBtn" class="add-new-card-btn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -31,10 +26,9 @@
         </button>
     </div>
 
-    <!-- FORM -->
     <div class="form-wrapper hidden" id="formWrapper">
         <div class="form-container">
-            <form id="cardForm">
+            <form id="cardForm" novalidate>
                 <div class="form-row">
                     <div class="form-group" style="flex: 2;">
                         <label for="title">Title</label>
@@ -87,6 +81,8 @@
                     <div class="form-group">
                         <label for="readPages">Read Pages</label>
                         <input type="number" id="readPages" min="0" placeholder="e.g., 150">
+                        <!-- Error message container -->
+                        <span id="pagesError" class="error-message" style="display: none;">Read pages cannot exceed total pages.</span>
                     </div>
                     <div class="form-group checkbox-group">
                         <input type="checkbox" id="available">
@@ -110,10 +106,8 @@
         </div>
     </div>
 
-    <!-- CONTAINER FOR CARDS -->
     <div class="cards-grid" id="cardsContainer"></div>
 
-    <!-- External JS -->
     <script src="script.js"></script>
 </body>
 </html>

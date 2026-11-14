@@ -1,4 +1,3 @@
-// --- 1. INITIAL DATA ---
 let cardsData = [
   {
     id: "1",
@@ -98,30 +97,26 @@ let cardsData = [
   }
 ];
 
-// --- DOM ELEMENTS ---
 const cardsContainer = document.getElementById('cardsContainer');
 const cardForm = document.getElementById('cardForm');
 const toggleFormBtn = document.getElementById('toggleFormBtn');
 const formWrapper = document.getElementById('formWrapper');
 
-// --- 2. TOGGLE FORM VISIBILITY ---
+const formBtnHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+  Add New Card
+`;
+
+const closeBtnHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+  Close Form
+`;
+
 toggleFormBtn.addEventListener('click', () => {
   formWrapper.classList.toggle('hidden');
-  
-  if (formWrapper.classList.contains('hidden')) {
-    toggleFormBtn.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      Add New Card
-    `;
-  } else {
-    toggleFormBtn.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      Close Form
-    `;
-  }
+  toggleFormBtn.innerHTML = formWrapper.classList.contains('hidden') ? formBtnHTML : closeBtnHTML;
 });
 
-// --- 3. HELPERS ---
 function getTypeClass(type) {
     if (type === 'Poem') return 'type-poem';
     if (type === 'Myth/Legend') return 'type-myth';
@@ -142,7 +137,6 @@ function calculateCompletion(read, total) {
     return Math.min(Math.max(percent, 0), 100);
 }
 
-// --- 4. RENDER FUNCTION ---
 function renderCards() {
   cardsContainer.innerHTML = '';
 
@@ -172,9 +166,7 @@ function renderCards() {
     const borderClass = getTypeClass(card.type);
     const badgeClass = getBadgeClass(card.type);
     const completionPercent = calculateCompletion(card.readPages, card.totalPages);
-    
     const completionText = completionPercent === 100 ? "Completed" : `Completion: ${completionPercent}%`;
-    
     const quoteHTML = card.quote ? `<div class="quote-container" title="${card.quote.replace(/"/g, '&quot;')}">"${card.quote}"</div>` : '';
 
     const cardHTML = `
@@ -202,16 +194,26 @@ function renderCards() {
   });
 }
 
-// --- 5. FORM SUBMIT ---
 cardForm.addEventListener('submit', function (e) {
   e.preventDefault();
+
+  const totalPages = parseInt(document.getElementById('totalPages').value) || 0;
+  const readPages = parseInt(document.getElementById('readPages').value) || 0;
+  const errorSpan = document.getElementById('pagesError');
+  const readPagesInput = document.getElementById('readPages');
+
+  if (readPages > totalPages) {
+    errorSpan.style.display = 'block';
+    readPagesInput.classList.add('input-error');
+    return;
+  } else {
+    errorSpan.style.display = 'none';
+    readPagesInput.classList.remove('input-error');
+  }
 
   const tagsInput = document.getElementById('tags').value;
   const typeValue = document.getElementById('type').value;
   const availableChecked = document.getElementById('available').checked;
-  
-  const totalPages = parseInt(document.getElementById('totalPages').value) || 0;
-  const readPages = parseInt(document.getElementById('readPages').value) || 0;
   const quoteValue = document.getElementById('quote').value;
 
   const newCardObject = {
@@ -232,17 +234,12 @@ cardForm.addEventListener('submit', function (e) {
   cardForm.reset();
   
   formWrapper.classList.add('hidden');
-  toggleFormBtn.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      Add New Card
-    `;
+  toggleFormBtn.innerHTML = formBtnHTML;
 });
 
-// --- 6. DELETE ---
 function deleteCard(id) {
   cardsData = cardsData.filter(card => card.id !== id);
   renderCards();
 }
 
-// --- 7. INIT ---
 renderCards();

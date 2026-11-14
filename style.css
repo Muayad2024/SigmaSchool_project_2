@@ -1,18 +1,15 @@
 :root {
-    /* Matching the screenshot's dark mode colors */
     --bg-page: #262626;
     --bg-header: #262626;
     --text-main: #e0e0e0;
     --text-muted: #a0a0a0;
     --border-color: #666;
     
-    /* Card Colors */
     --bg-card: #2d2d2d; 
     --card-green: #2e7d5e;
     --card-brown: #a88147;
     --card-teal: #1e7c7c;
     
-    /* Tag Colors */
     --tag-border: #555;
     --tag-text: #aaa;
     --tag-bg: transparent;
@@ -31,10 +28,9 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    font-family: 'Courier Prime', monospace; /* Default font */
+    font-family: 'Courier Prime', monospace;
 }
 
-/* --- HEADER --- */
 .archive-header {
     width: 100%;
     max-width: 1400px;
@@ -89,7 +85,6 @@ body {
     height: 20px;
 }
 
-/* --- FORM WRAPPER --- */
 .form-wrapper {
     width: 100%;
     max-width: 1400px;
@@ -196,7 +191,6 @@ input:focus, select:focus {
     background-color: #24634a;
 }
 
-/* --- CARDS GRID --- */
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -207,7 +201,6 @@ input:focus, select:focus {
     justify-content: center;
 }
 
-/* --- CARDS --- */
 .card {
     background-color: var(--bg-card);
     padding: 20px;
@@ -218,10 +211,9 @@ input:focus, select:focus {
     flex-direction: column;
     transition: transform 0.2s ease;
     color: var(--text-main);
-    font-family: 'Roboto Mono', monospace; /* Changed to Roboto Mono */
+    font-family: 'Roboto Mono', monospace;
 }
 
-/* Force Roboto Mono on all nested elements to ensure inheritance */
 .card * {
     font-family: 'Roboto Mono', monospace;
 }
@@ -307,7 +299,6 @@ input:focus, select:focus {
     color: #6ecf9e;
 }
 
-/* --- QUOTE STYLES --- */
 .quote-container {
     margin-top: 10px;
     margin-bottom: 16px;
@@ -363,7 +354,6 @@ input:focus, select:focus {
     font-weight: 700;
 }
 
-/* --- DELETE BUTTON (Bottom Right) --- */
 .delete-btn {
     position: absolute;
     bottom: 10px;
@@ -382,7 +372,7 @@ input:focus, select:focus {
     opacity: 0;
     transition: opacity 0.2s, background-color 0.2s;
     z-index: 10;
-    font-family: 'Courier Prime', monospace; /* Explicitly set back to Courier Prime */
+    font-family: 'Courier Prime', monospace;
 }
 
 .card:hover .delete-btn {
@@ -400,4 +390,16 @@ input:focus, select:focus {
     padding: 40px;
     font-size: 18px;
     color: var(--text-muted);
+}
+
+/* --- NEW: Error Styles --- */
+.error-message {
+    color: #d9534f;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: bold;
+}
+
+.input-error {
+    border-color: #d9534f;
 }

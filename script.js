@@ -175,7 +175,6 @@ function renderCards() {
     
     const completionText = completionPercent === 100 ? "Completed" : `Completion: ${completionPercent}%`;
     
-    // Add quote only if it exists
     const quoteHTML = card.quote ? `<div class="quote-container" title="${card.quote.replace(/"/g, '&quot;')}">"${card.quote}"</div>` : '';
 
     const cardHTML = `

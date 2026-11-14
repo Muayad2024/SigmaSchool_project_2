@@ -1,5 +1,5 @@
 :root {
-   
+    /* Matching the screenshot's dark mode colors */
     --bg-page: #262626;
     --bg-header: #262626;
     --text-main: #e0e0e0;
@@ -22,7 +22,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Courier Prime', monospace;
 }
 
 body {
@@ -32,9 +31,10 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    font-family: 'Courier Prime', monospace; /* Default font */
 }
 
-
+/* --- HEADER --- */
 .archive-header {
     width: 100%;
     max-width: 1400px;
@@ -54,7 +54,6 @@ body {
     font-weight: 700;
     color: var(--text-main);
 }
-
 
 
 .action-bar {
@@ -167,7 +166,7 @@ input, select {
     font-size: 14px;
     outline: none;
     transition: border-color 0.2s;
-    font-family: inherit;
+    font-family: 'Courier Prime', monospace;
     background-color: var(--bg-page);
     color: var(--text-main);
     width: 100%;
@@ -190,6 +189,7 @@ input:focus, select:focus {
     margin-top: 10px;
     transition: background-color 0.2s;
     align-self: flex-start;
+    font-family: 'Courier Prime', monospace;
 }
 
 .add-btn:hover {
@@ -218,6 +218,12 @@ input:focus, select:focus {
     flex-direction: column;
     transition: transform 0.2s ease;
     color: var(--text-main);
+    font-family: 'Roboto Mono', monospace; /* Changed to Roboto Mono */
+}
+
+/* Force Roboto Mono on all nested elements to ensure inheritance */
+.card * {
+    font-family: 'Roboto Mono', monospace;
 }
 
 .card:hover {
@@ -308,7 +314,6 @@ input:focus, select:focus {
     font-size: 13px;
     font-style: italic;
     color: var(--text-muted);
-    /* Truncation logic */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -377,6 +382,7 @@ input:focus, select:focus {
     opacity: 0;
     transition: opacity 0.2s, background-color 0.2s;
     z-index: 10;
+    font-family: 'Courier Prime', monospace; /* Explicitly set back to Courier Prime */
 }
 
 .card:hover .delete-btn {

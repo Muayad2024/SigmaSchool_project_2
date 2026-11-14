@@ -28,7 +28,6 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    font-family: 'Courier Prime', monospace;
 }
 
 .archive-header {
@@ -46,9 +45,11 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 24px;
+    font-size: 2.5rem;
     font-weight: 700;
     color: var(--text-main);
+    font-family: "Atomic Age", system-ui;
+    
 }
 
 .action-bar {
@@ -107,6 +108,7 @@ body {
     padding: 24px 0;
     border: none;
     box-shadow: none;
+    font-family: "Quicksand", sans-serif;
 }
 
 .form-group {
@@ -221,10 +223,10 @@ input:focus, select:focus {
     transform: translateY(-5px);
 }
 
-.card.type-poem { border-color: var(--card-green); }
+/* .card.type-poem { border-color: var(--card-green); }
 .card.type-myth { border-color: var(--card-brown); }
 .card.type-scripture { border-color: var(--card-teal); }
-.card.type-other { border-color: var(--border-color); }
+.card.type-other { border-color: var(--border-color); } */
 
 .card-header {
     display: flex;
@@ -240,9 +242,6 @@ input:focus, select:focus {
     line-height: 1.2;
     max-width: 65%;
     word-wrap: break-word;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
 }
 
 .header-actions {
@@ -259,7 +258,7 @@ input:focus, select:focus {
     color: white;
     white-space: nowrap;
 }
-
+/* need to revise */
 .badge-poem { background-color: var(--card-green); }
 .badge-myth { background-color: var(--card-brown); }
 .badge-scripture { background-color: var(--card-teal); }
@@ -353,7 +352,7 @@ input:focus, select:focus {
     font-weight: 700;
 }
 
-/* --- NEW: Options Menu (Three Dots) --- */
+/* (Three Dots) */
 .options-menu {
     position: absolute;
     bottom: 10px;

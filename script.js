@@ -10,7 +10,67 @@ let cardsData = [
     quote: "I have discovered the secret that after climbing a great hill, one only finds that there are many more hills to climb. I have taken a moment here to rest, to steal a view of the glorious vista that surrounds me, to look back on the distance I have come. But I can only rest for a moment, for with freedom come responsibilities, and I dare not linger, for my long walk is not ended.",
     totalPages: 1243,
     readPages: 1243
-  }
+  }, 
+  {
+    id: "2",
+    title: "The Autobiography of Benjamin Franklin",
+    author: "Benjamin Franklin",
+    date: "1706",
+    type: "Biography",
+    tags: ["History"],
+    available: true,
+    quote: "hello",
+    totalPages: 350,
+    readPages: 100
+  }/* , 
+  {
+    id: "3",
+    title: "",
+    author: "",
+    date: "",
+    type: "Biography",
+    tags: ["History"],
+    available: true,
+    quote: "",
+    totalPages: ,
+    readPages: 
+  }, 
+  {
+    id: "4",
+    title: "",
+    author: "",
+    date: "",
+    type: "Biography",
+    tags: ["History"],
+    available: true,
+    quote: "",
+    totalPages: ,
+    readPages: 
+  }, 
+  {
+    id: "5",
+    title: "",
+    author: "",
+    date: "",
+    type: "Biography",
+    tags: ["History"],
+    available: true,
+    quote: "",
+    totalPages: ,
+    readPages: 
+  }, 
+  {
+    id: "6",
+    title: "",
+    author: "",
+    date: "",
+    type: "Biography",
+    tags: ["History"],
+    available: true,
+    quote: "",
+    totalPages: ,
+    readPages: 
+  } */
 ];
 
 const cardsContainer = document.getElementById('cardsContainer');

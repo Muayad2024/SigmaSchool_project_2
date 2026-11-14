@@ -1,0 +1,408 @@
+:root {
+    /* Matching the screenshot's dark mode colors */
+    --bg-page: #262626;
+    --bg-header: #262626;
+    --text-main: #e0e0e0;
+    --text-muted: #a0a0a0;
+    --border-color: #666;
+    
+    /* Card Colors */
+    --bg-card: #2d2d2d; 
+    --card-green: #2e7d5e;
+    --card-brown: #a88147;
+    --card-teal: #1e7c7c;
+    
+    /* Tag Colors */
+    --tag-border: #555;
+    --tag-text: #aaa;
+    --tag-bg: transparent;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier Prime', monospace;
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- HEADER --- */
+.archive-header {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-header);
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--text-main);
+    color: var(--bg-page);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+/* --- ACTION BAR --- */
+.action-bar {
+    width: 100%;
+    max-width: 1400px;
+    padding: 16px 30px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-header);
+}
+
+.add-new-card-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.add-new-card-btn:hover {
+    color: var(--card-green);
+}
+
+.add-new-card-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* --- FORM WRAPPER --- */
+.form-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
+    max-height: 1000px;
+    opacity: 1;
+    padding: 0 30px;
+    background-color: var(--bg-header);
+}
+
+.form-wrapper.hidden {
+    max-height: 0;
+    opacity: 0;
+    padding: 0 30px;
+    pointer-events: none;
+}
+
+.form-container {
+    background-color: transparent;
+    padding: 24px 0;
+    border: none;
+    box-shadow: none;
+}
+
+.form-group {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin: 0;
+    accent-color: var(--card-green);
+}
+
+.checkbox-group label {
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0;
+    color: var(--text-main);
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+input, select {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    width: 100%;
+}
+
+input:focus, select:focus {
+    border-color: var(--text-main);
+}
+
+.add-btn {
+    width: auto;
+    padding: 10px 24px;
+    background-color: var(--card-green);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+    align-self: flex-start;
+}
+
+.add-btn:hover {
+    background-color: #24634a;
+}
+
+/* --- CARDS GRID --- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 1400px;
+    padding: 30px;
+    justify-content: center;
+}
+
+/* --- CARDS --- */
+.card {
+    background-color: var(--bg-card);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+    color: var(--text-main);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card.type-poem { border-color: var(--card-green); }
+.card.type-myth { border-color: var(--card-brown); }
+.card.type-scripture { border-color: var(--card-teal); }
+.card.type-other { border-color: var(--border-color); }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.2;
+    max-width: 65%;
+    word-wrap: break-word;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+}
+
+.badge-poem { background-color: var(--card-green); }
+.badge-myth { background-color: var(--card-brown); }
+.badge-scripture { background-color: var(--card-teal); }
+.badge-other { background-color: #666; }
+
+.divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 8px 0 12px 0;
+    width: 100%;
+}
+
+.metadata {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.author-date {
+    font-size: 14px;
+    color: var(--text-main);
+    font-style: italic;
+}
+
+.completion-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.completion-info .percent {
+    color: #6ecf9e;
+}
+
+/* --- QUOTE STYLES --- */
+.quote-container {
+    margin-top: 10px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-muted);
+    /* Truncation logic */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.card:hover .quote-container {
+    color: var(--text-main);
+}
+
+.quote-container:empty {
+    display: none;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+    padding-right: 30px;
+}
+
+.tag {
+    font-size: 12px;
+    color: var(--tag-text);
+    border: 1px solid var(--tag-border);
+    border-radius: 999px;
+    padding: 2px 10px;
+    white-space: nowrap;
+    font-weight: 400;
+    background: var(--tag-bg);
+}
+
+.tag-available {
+    background-color: rgba(46, 125, 94, 0.2);
+    border-color: var(--card-green);
+    color: #6ecf9e;
+    font-weight: 700;
+}
+
+.tag-not-available {
+    background-color: rgba(200, 50, 50, 0.1);
+    border-color: #803333;
+    color: #d97a7a;
+    font-weight: 700;
+}
+
+/* --- DELETE BUTTON (Bottom Right) --- */
+.delete-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s;
+    z-index: 10;
+}
+
+.card:hover .delete-btn {
+    opacity: 1;
+}
+
+.delete-btn:hover {
+    background-color: #c9302c;
+}
+
+.empty-state {
+    text-align: center;
+    width: 100%;
+    grid-column: 1 / -1;
+    padding: 40px;
+    font-size: 18px;
+    color: var(--text-muted);
+}

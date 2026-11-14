@@ -17,6 +17,9 @@ const cardsContainer = document.getElementById('cardsContainer');
 const cardForm = document.getElementById('cardForm');
 const toggleFormBtn = document.getElementById('toggleFormBtn');
 const formWrapper = document.getElementById('formWrapper');
+const submitBtn = document.getElementById('submitBtn');
+
+let editingCardId = null;
 
 const formBtnHTML = `
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -30,7 +33,14 @@ const closeBtnHTML = `
 
 toggleFormBtn.addEventListener('click', () => {
   formWrapper.classList.toggle('hidden');
-  toggleFormBtn.innerHTML = formWrapper.classList.contains('hidden') ? formBtnHTML : closeBtnHTML;
+  if (formWrapper.classList.contains('hidden')) {
+    toggleFormBtn.innerHTML = formBtnHTML;
+    cardForm.reset();
+    editingCardId = null;
+    submitBtn.textContent = 'Create Book';
+  } else {
+    toggleFormBtn.innerHTML = closeBtnHTML;
+  }
 });
 
 function getTypeClass(type) {
@@ -57,7 +67,7 @@ function renderCards() {
   cardsContainer.innerHTML = '';
 
   if (cardsData.length === 0) {
-    cardsContainer.innerHTML = '<p class="empty-state">No cards available. Create one above!</p>';
+    cardsContainer.innerHTML = '<p class="empty-state">No books available. Create one above!</p>';
     return;
   }
 
@@ -103,11 +113,67 @@ function renderCards() {
         </div>
         ${quoteHTML}
         <div class="tags-container">${tagsHTML}</div>
-        <button class="delete-btn" onclick="deleteCard('${card.id}')" title="Delete Card">&times;</button>
+        
+        <div class="options-menu" id="menu-${card.id}">
+          <button class="menu-toggle-btn" onclick="toggleMenu('${card.id}', event)">&#8942;</button>
+          <div class="dropdown">
+            <button class="dropdown-item" onclick="editCard('${card.id}')">Edit Book</button>
+            <button class="dropdown-item delete" onclick="deleteCard('${card.id}')">Delete</button>
+          </div>
+        </div>
       </div>
     `;
     cardsContainer.insertAdjacentHTML('beforeend', cardHTML);
   });
+}
+
+function toggleMenu(id, event) {
+  event.stopPropagation();
+  const currentMenu = document.getElementById(`menu-${id}`);
+  
+  // Close all other open menus first
+  document.querySelectorAll('.options-menu').forEach(menu => {
+    if (menu !== currentMenu) menu.classList.remove('active');
+  });
+
+  currentMenu.classList.toggle('active');
+}
+
+// Close menu when clicking anywhere else
+document.addEventListener('click', () => {
+  document.querySelectorAll('.options-menu').forEach(menu => {
+    menu.classList.remove('active');
+  });
+});
+
+function editCard(id) {
+  const cardToEdit = cardsData.find(c => c.id === id);
+  if (!cardToEdit) return;
+
+  // Populate Form
+  document.getElementById('title').value = cardToEdit.title;
+  document.getElementById('author').value = cardToEdit.author;
+  document.getElementById('date').value = cardToEdit.date;
+  document.getElementById('type').value = cardToEdit.type;
+  document.getElementById('totalPages').value = cardToEdit.totalPages || '';
+  document.getElementById('readPages').value = cardToEdit.readPages || '';
+  document.getElementById('available').checked = cardToEdit.available;
+  document.getElementById('tags').value = cardToEdit.tags.join(', ');
+  document.getElementById('quote').value = cardToEdit.quote || '';
+
+  // Change form state
+  editingCardId = id;
+  submitBtn.textContent = 'Update Book';
+  formWrapper.classList.remove('hidden');
+  toggleFormBtn.innerHTML = closeBtnHTML;
+
+  // Scroll to top so user can see form
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deleteCard(id) {
+  cardsData = cardsData.filter(card => card.id !== id);
+  renderCards();
 }
 
 cardForm.addEventListener('submit', function (e) {
@@ -132,8 +198,7 @@ cardForm.addEventListener('submit', function (e) {
   const availableChecked = document.getElementById('available').checked;
   const quoteValue = document.getElementById('quote').value;
 
-  const newCardObject = {
-    id: Date.now().toString(),
+  const cardData = {
     title: document.getElementById('title').value,
     author: document.getElementById('author').value,
     date: document.getElementById('date').value,
@@ -145,17 +210,25 @@ cardForm.addEventListener('submit', function (e) {
     readPages: readPages
   };
 
-  cardsData.push(newCardObject);
+  if (editingCardId) {
+    // Update existing card
+    const index = cardsData.findIndex(c => c.id === editingCardId);
+    if (index !== -1) {
+      cardsData[index] = { ...cardsData[index], ...cardData };
+    }
+  } else {
+    // Add new card
+    cardsData.push({ id: Date.now().toString(), ...cardData });
+  }
+
   renderCards();
   cardForm.reset();
   
+  // Reset form state
+  editingCardId = null;
+  submitBtn.textContent = 'Create Book';
   formWrapper.classList.add('hidden');
   toggleFormBtn.innerHTML = formBtnHTML;
 });
-
-function deleteCard(id) {
-  cardsData = cardsData.filter(card => card.id !== id);
-  renderCards();
-}
 
 renderCards();

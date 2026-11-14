@@ -392,7 +392,6 @@ input:focus, select:focus {
     color: var(--text-muted);
 }
 
-/* --- NEW: Error Styles --- */
 .error-message {
     color: #d9534f;
     font-size: 12px;

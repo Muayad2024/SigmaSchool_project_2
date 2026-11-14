@@ -1,99 +1,15 @@
 let cardsData = [
   {
     id: "1",
-    title: "The Epic of Gilgamesh",
-    author: "Anonymous",
-    date: "c. 2100 BCE",
-    type: "Poem",
-    tags: ["Death & Mortality", "Loyalty", "Ambition & Hubris"],
+    title: "Long Walk to Freedom",
+    author: "Nelson Mandela",
+    date: "1994",
+    type: "Biography",
+    tags: ["History"],
     available: true,
     quote: "He who saw the deep, the country's foundation, who knew the ways, was wise in all matters.",
-    totalPages: 200,
-    readPages: 50
-  },
-  {
-    id: "2",
-    title: "The Story of Osiris and...",
-    author: "Egyptian myth",
-    date: "c. 2000 BCE",
-    type: "Myth/Legend",
-    tags: ["Death & Mortality", "Loyalty", "Justice & Revenge", "Rebirth"],
-    available: false,
-    quote: "I am the resurrection and the life.",
-    totalPages: 0,
-    readPages: 0
-  },
-  {
-    id: "3",
-    title: "The Descent of Inanna",
-    author: "Sumerian myth",
-    date: "c. 1900 BCE",
-    type: "Myth/Legend",
-    tags: ["Death & Mortality", "Power & Corruption", "Rebirth"],
-    available: true,
-    quote: "From the great above she opened her ear to the great below.",
-    totalPages: 100,
-    readPages: 100
-  },
-  {
-    id: "4",
-    title: "The Egyptian Book of the...",
-    author: "Egyptian scripture",
-    date: "c. 1550 BCE",
-    type: "Scripture",
-    tags: ["Death & Mortality", "Justice & Revenge", "Rebirth"],
-    available: false,
-    quote: "I have not done evil. I have not robbed with violence.",
-    totalPages: 400,
-    readPages: 10
-  },
-  {
-    id: "5",
-    title: "The Enuma Elish",
-    author: "Babylonian scripture",
-    date: "c. 1200 BCE",
-    type: "Scripture",
-    tags: ["Art & Creation", "Power & Corruption", "Good vs Evil", "War & Violence"],
-    available: true,
-    quote: "When on high the heaven had not been named, firm ground below had not been called by name...",
-    totalPages: 150,
-    readPages: 75
-  },
-  {
-    id: "6",
-    title: "The Contendings...",
-    author: "Egyptian myth",
-    date: "c. 1160 BCE",
-    type: "Myth/Legend",
-    tags: ["Justice & Revenge", "Duty & Honor", "Power & Corruption", "Political"],
-    available: false,
-    quote: "The truth is mighty and prevails.",
-    totalPages: 80,
-    readPages: 0
-  },
-  {
-    id: "7",
-    title: "The Gathas of Zarathustra",
-    author: "Zarathustra",
-    date: "c. 1000 BCE",
-    type: "Scripture",
-    tags: ["Good vs Evil", "Faith & Doubt", "Freedom vs Fate"],
-    available: true,
-    quote: "Hear with your ears the best things; look upon them with clear-seeing thought.",
-    totalPages: 250,
-    readPages: 250
-  },
-  {
-    id: "8",
-    title: "The Iliad",
-    author: "Homer",
-    date: "c. 750 BCE",
-    type: "Poem",
-    tags: ["War & Violence", "Ambition & Hubris", "Duty & Honor"],
-    available: false,
-    quote: "Rage—Goddess, sing the rage of Peleus' son Achilles, murderous, doomed, that cost the Achaeans countless losses.",
-    totalPages: 600,
-    readPages: 120
+    totalPages: 1243,
+    readPages: 1243
   }
 ];
 

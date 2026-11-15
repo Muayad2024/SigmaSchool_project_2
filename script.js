@@ -229,13 +229,20 @@ function addBook(cardData) {
   renderCards();
 }
 
-//delete one card 
+// delete one card 
+//Create a new cardsData array by keeping every book (card) where the book's ID does not equal (!==) the ID of the book we want to delete.
 function deleteCard(id) {
-  for (i = 0; i < cardsData.length; i++) {
-    if (cardsData[i].id === id) {
-      cardsData.splice (i, 1)
-      renderCards();
-    } 
+  cardsData = cardsData.filter(card => card.id !== id);
+  renderCards();
+}
+
+// Update an existing book
+function updateBook(id, newData) {
+  const index = cardsData.findIndex(c => c.id === id);
+  
+  if (index !== -1) {
+    cardsData[index] = { ...cardsData[index], ...newData };
+    renderCards();
   }
 }
 

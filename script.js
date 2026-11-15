@@ -182,8 +182,9 @@ function renderCards() {
   });
 }
 
+//The three dots menue 
 function toggleMenu(id, event) {
-  event.stopPropagation();
+  event.stopPropagation();  //stop the code from effect by the other lists 
   const currentMenu = document.getElementById(`menu-${id}`);
 
   document.querySelectorAll('.options-menu').forEach(menu => {
@@ -193,6 +194,7 @@ function toggleMenu(id, event) {
   currentMenu.classList.toggle('active');
 }
 
+//close the menues if user click anywhere on the page 
 document.addEventListener('click', () => {
   document.querySelectorAll('.options-menu').forEach(menu => {
     menu.classList.remove('active');
@@ -221,12 +223,13 @@ function editCard(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-
+//add new book to the grid 
 function addBook(cardData) {
   cardsData.push({ id: Date.now().toString(), ...cardData });
   renderCards();
 }
 
+//delete one card 
 function deleteCard(id) {
   for (i = 0; i < cardsData.length; i++) {
     if (cardsData[i].id === id) {

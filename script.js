@@ -83,27 +83,27 @@ let cardsData = [
     totalPages: 649,
     readPages: 649
   } 
-
 ];
+
+//===============================================================================================
 // The Dom object elements
 const cardsContainer = document.getElementById('cardsContainer');
 const cardForm = document.getElementById('cardForm');
 const toggleFormBtn = document.getElementById('toggleFormBtn');
 const formWrapper = document.getElementById('formWrapper');
 const submitBtn = document.getElementById('submitBtn');
-
 let editingCardId = null;
-//This long svg is plus icon :)
+
 const formBtnHTML = `
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
   Add New Book
 `;
-//This long svg is plus icon :)
 const closeBtnHTML = `
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
   Close Form
 `;
-/* Event Listeer when the botton clicked it will hide the form and change the inner HTML and change the submit button text  */
+
+//============================================================================================
 toggleFormBtn.addEventListener('click', () => {
   formWrapper.classList.toggle('hidden');
   if (formWrapper.classList.contains('hidden')) {
@@ -115,17 +115,16 @@ toggleFormBtn.addEventListener('click', () => {
     toggleFormBtn.innerHTML = closeBtnHTML;
   }
 });
-//calculate the percent 
+
 function calculateCompletion(read, total) {
-  if (total <= 0) return 0;   //I don't want to get infinity number 
+  if (total <= 0) return 0; 
   const percent = Math.round((read / total) * 100);
-  return Math.min(Math.max(percent, 0), 100);  //It make the out put btween 1-100 for wrong input
+  return Math.min(Math.max(percent, 0), 100); 
 }
 
-// This function will arrange the cards 
 function renderCards() {
+  //If there is no book cards 
   cardsContainer.innerHTML = '';
-/* If there is no books added (the array length is 0) it will show this HTML paragraph */
   if (cardsData.length === 0) {
     cardsContainer.innerHTML = '<p class="empty-state">No books available. Create one above!</p>';
     return;
@@ -133,7 +132,7 @@ function renderCards() {
 
   cardsData.forEach(card => {
     let tagsHTML = '';
-
+    //Boolean condition 
     tagsHTML += card.available
       ? `<span class="tag tag-available">Available</span>`
       : `<span class="tag tag-not-available">Not Available</span>`;
@@ -148,10 +147,9 @@ function renderCards() {
     }
 
     const completionPercent = calculateCompletion(card.readPages, card.totalPages);
-    /* If the book complete it will show the completed text other it will show the percent  */
     const completionText = completionPercent === 100 ? "Completed" : `Completion: ${completionPercent}%`;
     const quoteHTML = card.quote ? `<div class="quote-container" title="${card.quote.replace(/"/g, '&quot;')}">"${card.quote}"</div>` : '';
-//This HTML will add to the cad with properity .innerHTML
+
     const cardHTML = `
       <div class="card">
         <div class="card-header">
@@ -200,7 +198,7 @@ document.addEventListener('click', () => {
     menu.classList.remove('active');
   });
 });
-// If I want to edit the card 
+//Edit the card 
 function editCard(id) {
   const cardToEdit = cardsData.find(c => c.id === id);
   if (!cardToEdit) return;
@@ -223,20 +221,32 @@ function editCard(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function deleteCard(id) {
-  cardsData = cardsData.filter(card => card.id !== id);
+
+function addBook(cardData) {
+  cardsData.push({ id: Date.now().toString(), ...cardData });
   renderCards();
+}
+
+function deleteCard(id) {
+  for (i = 0; i < cardsData.length; i++) {
+    if (cardsData[i].id === id) {
+      cardsData.splice (i, 1)
+      renderCards();
+    } 
+  }
 }
 
 //When click submit button 
 cardForm.addEventListener('submit', function (e) {
   e.preventDefault();
-
+  //second conferm after HTML for the right values entered 
   const totalPages = parseInt(document.getElementById('totalPages').value) || 0;
   const readPages = parseInt(document.getElementById('readPages').value) || 0;
   const errorSpan = document.getElementById('pagesError');
   const readPagesInput = document.getElementById('readPages');
   const tagsInput = document.getElementById('tags').value;
+
+  //This is the object will pushed to the acrdsData array 
   const cardData = {
     title: document.getElementById('title').value,
     author: document.getElementById('author').value,
@@ -248,7 +258,7 @@ cardForm.addEventListener('submit', function (e) {
     totalPages: totalPages,
     readPages: readPages
   };
-
+  //second confirmations about the input for the pages numbers 
   if (readPages > totalPages) {
     errorSpan.style.display = 'block';
     readPagesInput.classList.add('input-error');
@@ -257,21 +267,15 @@ cardForm.addEventListener('submit', function (e) {
     errorSpan.style.display = 'none';
     readPagesInput.classList.remove('input-error');
   }
-
-  if (editingCardId) {
-    const index = cardsData.findIndex(c => c.id === editingCardId);
-    if (index !== -1) {
-      cardsData[index] = { ...cardsData[index], ...cardData };
-    }
-  }
-  //Here we submit the object to the array  
-  else {
-    cardsData.push({ id: Date.now().toString(), ...cardData });
+  //safety confirmation for the id to not duplicate 
+    if (editingCardId) {
+    updateBook(editingCardId, cardData);
+  } else {
+    addBook(cardData);
   }
 
-  renderCards();
+  // Reset UI
   cardForm.reset();
-
   editingCardId = null;
   submitBtn.textContent = 'Create Book';
   formWrapper.classList.add('hidden');

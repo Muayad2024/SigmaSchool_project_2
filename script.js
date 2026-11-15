@@ -10,7 +10,7 @@ let cardsData = [
     quote: "I have discovered the secret that after climbing a great hill, one only finds that there are many more hills to climb. I have taken a moment here to rest, to steal a view of the glorious vista that surrounds me, to look back on the distance I have come. But I can only rest for a moment, for with freedom come responsibilities, and I dare not linger, for my long walk is not ended.",
     totalPages: 1243,
     readPages: 1243
-  }, 
+  },
   {
     id: "2",
     title: "The Autobiography of Benjamin Franklin",
@@ -22,57 +22,70 @@ let cardsData = [
     quote: "hello",
     totalPages: 350,
     readPages: 100
-  }/* , 
+  }, 
   {
     id: "3",
-    title: "",
-    author: "",
-    date: "",
-    type: "Biography",
-    tags: ["History"],
+    title: "Man's Search for Meaning",
+    author: "Viktor E. Frankl",
+    date: "1946",
+    type: "Nonfiction",
+    tags: [],
     available: true,
     quote: "",
-    totalPages: ,
-    readPages: 
+    totalPages: 165,
+    readPages: 165
   }, 
   {
     id: "4",
-    title: "",
-    author: "",
-    date: "",
-    type: "Biography",
-    tags: ["History"],
+    title: "The Da Vinci Code",
+    author: "Dan Brown",
+    date: "2003",
+    type: "Fiction",
+    tags: ["Mystery"],
     available: true,
     quote: "",
-    totalPages: ,
-    readPages: 
-  }, 
+    totalPages: 480 ,
+    readPages: 480
+  } , 
   {
     id: "5",
-    title: "",
-    author: "",
-    date: "",
-    type: "Biography",
-    tags: ["History"],
+    title: "The Monk Who Sold His Ferrari: A Fable About Fulfilling Your Dreams and Reaching Your Destiny",
+    author: "Robin Sharma",
+    date: "1996",
+    type: "Self Help",
+    tags: [],
     available: true,
     quote: "",
-    totalPages: ,
-    readPages: 
+    totalPages: 208 ,
+    readPages: 208
   }, 
   {
     id: "6",
-    title: "",
-    author: "",
-    date: "",
-    type: "Biography",
-    tags: ["History"],
+    title: "The Gods Themselves",
+    author: "Isaac Asimov,",
+    date: "1966 ",
+    type: "Science Fiction",
+    tags: [],
     available: true,
     quote: "",
-    totalPages: ,
-    readPages: 
-  } */
-];
+    totalPages: 288,
+    readPages: 288
+  }, 
+  {
+    id: "7",
+    title: "Mahatma Gandhi Autobiography: The Story Of My Experiments With Truth",
+    author: "M.K. Gandhi",
+    date: "2020",
+    type: "Biography",
+    tags: [],
+    available: true,
+    quote: "",
+    totalPages: 649,
+    readPages: 649
+  } 
 
+];
+// The Dom object elements
 const cardsContainer = document.getElementById('cardsContainer');
 const cardForm = document.getElementById('cardForm');
 const toggleFormBtn = document.getElementById('toggleFormBtn');
@@ -80,17 +93,17 @@ const formWrapper = document.getElementById('formWrapper');
 const submitBtn = document.getElementById('submitBtn');
 
 let editingCardId = null;
-
+//This long svg is plus icon :)
 const formBtnHTML = `
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
   Add New Book
 `;
-
+//This long svg is plus icon :)
 const closeBtnHTML = `
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
   Close Form
 `;
-
+/* Event Listeer when the botton clicked it will hide the form and change the inner HTML and change the submit button text  */
 toggleFormBtn.addEventListener('click', () => {
   formWrapper.classList.toggle('hidden');
   if (formWrapper.classList.contains('hidden')) {
@@ -102,30 +115,17 @@ toggleFormBtn.addEventListener('click', () => {
     toggleFormBtn.innerHTML = closeBtnHTML;
   }
 });
-
-function getTypeClass(type) {
-    if (type === 'Poem') return 'type-poem';
-    if (type === 'Myth/Legend') return 'type-myth';
-    if (type === 'Scripture') return 'type-scripture';
-    return 'type-other';
-}
-
-function getBadgeClass(type) {
-    if (type === 'Poem') return 'badge-poem';
-    if (type === 'Myth/Legend') return 'badge-myth';
-    if (type === 'Scripture') return 'badge-scripture';
-    return 'badge-other';
-}
-
+//calculate the percent 
 function calculateCompletion(read, total) {
-    if (!total || total <= 0) return 0;
-    const percent = Math.round((read / total) * 100);
-    return Math.min(Math.max(percent, 0), 100);
+  if (total <= 0) return 0;   //I don't want to get infinity number 
+  const percent = Math.round((read / total) * 100);
+  return Math.min(Math.max(percent, 0), 100);  //It make the out put btween 1-100 for wrong input
 }
 
+// This function will arrange the cards 
 function renderCards() {
   cardsContainer.innerHTML = '';
-
+/* If there is no books added (the array length is 0) it will show this HTML paragraph */
   if (cardsData.length === 0) {
     cardsContainer.innerHTML = '<p class="empty-state">No books available. Create one above!</p>';
     return;
@@ -133,34 +133,31 @@ function renderCards() {
 
   cardsData.forEach(card => {
     let tagsHTML = '';
-    
-    if (card.available) {
-      tagsHTML += `<span class="tag tag-available">Available</span>`;
-    } else {
-      tagsHTML += `<span class="tag tag-not-available">Not Available</span>`;
-    }
+
+    tagsHTML += card.available
+      ? `<span class="tag tag-available">Available</span>`
+      : `<span class="tag tag-not-available">Not Available</span>`;
 
     const displayedTags = card.tags.slice(0, 3);
     const remainingCount = card.tags.length - 3;
-    
+
     tagsHTML += displayedTags.map(tag => `<span class="tag">${tag}</span>`).join('');
 
     if (remainingCount > 0) {
       tagsHTML += `<span class="tag tag-count">+${remainingCount}</span>`;
     }
 
-    const borderClass = getTypeClass(card.type);
-    const badgeClass = getBadgeClass(card.type);
     const completionPercent = calculateCompletion(card.readPages, card.totalPages);
+    /* If the book complete it will show the completed text other it will show the percent  */
     const completionText = completionPercent === 100 ? "Completed" : `Completion: ${completionPercent}%`;
     const quoteHTML = card.quote ? `<div class="quote-container" title="${card.quote.replace(/"/g, '&quot;')}">"${card.quote}"</div>` : '';
-
+//This HTML will add to the cad with properity .innerHTML
     const cardHTML = `
-      <div class="card ${borderClass}">
+      <div class="card">
         <div class="card-header">
           <h1 class="card-title">${card.title}</h1>
           <div class="header-actions">
-            <span class="badge ${badgeClass}">${card.type}</span>
+            <span class="badge">${card.type}</span>
           </div>
         </div>
         <hr class="divider">
@@ -173,7 +170,7 @@ function renderCards() {
         </div>
         ${quoteHTML}
         <div class="tags-container">${tagsHTML}</div>
-        
+
         <div class="options-menu" id="menu-${card.id}">
           <button class="menu-toggle-btn" onclick="toggleMenu('${card.id}', event)">&#8942;</button>
           <div class="dropdown">
@@ -190,8 +187,7 @@ function renderCards() {
 function toggleMenu(id, event) {
   event.stopPropagation();
   const currentMenu = document.getElementById(`menu-${id}`);
-  
-  // Close all other open menus first
+
   document.querySelectorAll('.options-menu').forEach(menu => {
     if (menu !== currentMenu) menu.classList.remove('active');
   });
@@ -199,18 +195,16 @@ function toggleMenu(id, event) {
   currentMenu.classList.toggle('active');
 }
 
-// Close menu when clicking anywhere else
 document.addEventListener('click', () => {
   document.querySelectorAll('.options-menu').forEach(menu => {
     menu.classList.remove('active');
   });
 });
-
+// If I want to edit the card 
 function editCard(id) {
   const cardToEdit = cardsData.find(c => c.id === id);
   if (!cardToEdit) return;
 
-  // Populate Form
   document.getElementById('title').value = cardToEdit.title;
   document.getElementById('author').value = cardToEdit.author;
   document.getElementById('date').value = cardToEdit.date;
@@ -221,13 +215,11 @@ function editCard(id) {
   document.getElementById('tags').value = cardToEdit.tags.join(', ');
   document.getElementById('quote').value = cardToEdit.quote || '';
 
-  // Change form state
   editingCardId = id;
   submitBtn.textContent = 'Update Book';
   formWrapper.classList.remove('hidden');
   toggleFormBtn.innerHTML = closeBtnHTML;
 
-  // Scroll to top so user can see form
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -236,6 +228,7 @@ function deleteCard(id) {
   renderCards();
 }
 
+//When click submit button 
 cardForm.addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -243,6 +236,18 @@ cardForm.addEventListener('submit', function (e) {
   const readPages = parseInt(document.getElementById('readPages').value) || 0;
   const errorSpan = document.getElementById('pagesError');
   const readPagesInput = document.getElementById('readPages');
+  const tagsInput = document.getElementById('tags').value;
+  const cardData = {
+    title: document.getElementById('title').value,
+    author: document.getElementById('author').value,
+    date: document.getElementById('date').value,
+    type: document.getElementById('type').value,
+    tags: tagsInput.split(',').map(t => t.trim()).filter(t => t !== ''),
+    available: document.getElementById('available').checked,
+    quote: document.getElementById('quote').value,
+    totalPages: totalPages,
+    readPages: readPages
+  };
 
   if (readPages > totalPages) {
     errorSpan.style.display = 'block';
@@ -253,38 +258,20 @@ cardForm.addEventListener('submit', function (e) {
     readPagesInput.classList.remove('input-error');
   }
 
-  const tagsInput = document.getElementById('tags').value;
-  const typeValue = document.getElementById('type').value;
-  const availableChecked = document.getElementById('available').checked;
-  const quoteValue = document.getElementById('quote').value;
-
-  const cardData = {
-    title: document.getElementById('title').value,
-    author: document.getElementById('author').value,
-    date: document.getElementById('date').value,
-    type: typeValue,
-    tags: tagsInput.split(',').map(t => t.trim()).filter(t => t !== ''),
-    available: availableChecked,
-    quote: quoteValue,
-    totalPages: totalPages,
-    readPages: readPages
-  };
-
   if (editingCardId) {
-    // Update existing card
     const index = cardsData.findIndex(c => c.id === editingCardId);
     if (index !== -1) {
       cardsData[index] = { ...cardsData[index], ...cardData };
     }
-  } else {
-    // Add new card
+  }
+  //Here we submit the object to the array  
+  else {
     cardsData.push({ id: Date.now().toString(), ...cardData });
   }
 
   renderCards();
   cardForm.reset();
-  
-  // Reset form state
+
   editingCardId = null;
   submitBtn.textContent = 'Create Book';
   formWrapper.classList.add('hidden');

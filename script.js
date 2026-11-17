@@ -156,7 +156,7 @@ function rearrangeCards() {
 
 //The three dots menue
 function toggleMenu(index, event) {
-  event.stopPropagation();
+  event.stopPropagation(); // I don't want the parent (document) to listen to this event 
   const currentMenu = document.getElementById(`menu-${index}`);
 
   document.querySelectorAll('.options-menu').forEach(menu => {

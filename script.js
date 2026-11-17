@@ -1,6 +1,5 @@
 let cardsData = [
   {
-    id: "1",
     title: "Long Walk to Freedom",
     author: "Nelson Mandela",
     date: "1994",
@@ -12,7 +11,6 @@ let cardsData = [
     readPages: 1243
   },
   {
-    id: "2",
     title: "The Autobiography of Benjamin Franklin",
     author: "Benjamin Franklin",
     date: "1706",
@@ -22,9 +20,8 @@ let cardsData = [
     quote: "hello",
     totalPages: 350,
     readPages: 100
-  }, 
+  },
   {
-    id: "3",
     title: "Man's Search for Meaning",
     author: "Viktor E. Frankl",
     date: "1946",
@@ -34,9 +31,8 @@ let cardsData = [
     quote: "",
     totalPages: 165,
     readPages: 165
-  }, 
+  },
   {
-    id: "4",
     title: "The Da Vinci Code",
     author: "Dan Brown",
     date: "2003",
@@ -44,11 +40,10 @@ let cardsData = [
     tags: ["Mystery"],
     available: true,
     quote: "",
-    totalPages: 480 ,
+    totalPages: 480,
     readPages: 480
-  } , 
+  },
   {
-    id: "5",
     title: "The Monk Who Sold His Ferrari: A Fable About Fulfilling Your Dreams and Reaching Your Destiny",
     author: "Robin Sharma",
     date: "1996",
@@ -56,11 +51,10 @@ let cardsData = [
     tags: [],
     available: true,
     quote: "",
-    totalPages: 208 ,
+    totalPages: 208,
     readPages: 208
-  }, 
+  },
   {
-    id: "6",
     title: "The Gods Themselves",
     author: "Isaac Asimov,",
     date: "1966 ",
@@ -70,9 +64,8 @@ let cardsData = [
     quote: "",
     totalPages: 288,
     readPages: 288
-  }, 
+  },
   {
-    id: "7",
     title: "Mahatma Gandhi Autobiography: The Story Of My Experiments With Truth",
     author: "M.K. Gandhi",
     date: "2020",
@@ -82,63 +75,43 @@ let cardsData = [
     quote: "",
     totalPages: 649,
     readPages: 649
-  } 
+  }
 ];
 
-//===============================================================================================
-// The Dom object elements
+//================================================================
+// variables and objects =========================================
+//================================================================
 const cardsContainer = document.getElementById('cardsContainer');
 const cardForm = document.getElementById('cardForm');
-const toggleFormBtn = document.getElementById('toggleFormBtn');
-const formWrapper = document.getElementById('formWrapper');
+const hideFormBtn = document.getElementById('hideFormBtn');
+const hideForm = document.getElementById('hideForm');
 const submitBtn = document.getElementById('submitBtn');
-let editingCardId = null;
-
-const formBtnHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-  Add New Book
-`;
-const closeBtnHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-  Close Form
-`;
-
-//============================================================================================
-toggleFormBtn.addEventListener('click', () => {
-  formWrapper.classList.toggle('hidden');
-  if (formWrapper.classList.contains('hidden')) {
-    toggleFormBtn.innerHTML = formBtnHTML;
-    cardForm.reset();
-    editingCardId = null;
-    submitBtn.textContent = 'Create Book';
-  } else {
-    toggleFormBtn.innerHTML = closeBtnHTML;
-  }
-});
+let editingCardIndex = null;  
+//=======================================================================
+// Functions ============================================================
+//=======================================================================
 
 function calculateCompletion(read, total) {
-  if (total <= 0) return 0; 
+  if (total <= 0) return 0;
   const percent = Math.round((read / total) * 100);
-  return Math.min(Math.max(percent, 0), 100); 
+  return percent;
 }
 
-function renderCards() {
-  //If there is no book cards 
+function rearrangeCards() {
   cardsContainer.innerHTML = '';
   if (cardsData.length === 0) {
     cardsContainer.innerHTML = '<p class="empty-state">No books available. Create one above!</p>';
     return;
   }
 
-  cardsData.forEach(card => {
+  cardsData.forEach((card, index) => {          
     let tagsHTML = '';
-    //Boolean condition 
     tagsHTML += card.available
       ? `<span class="tag tag-available">Available</span>`
       : `<span class="tag tag-not-available">Not Available</span>`;
 
-    const displayedTags = card.tags.slice(0, 3);
-    const remainingCount = card.tags.length - 3;
+    const displayedTags = card.tags.slice(0, 3); //strings
+    const remainingCount = card.tags.length - 3; //number
 
     tagsHTML += displayedTags.map(tag => `<span class="tag">${tag}</span>`).join('');
 
@@ -162,18 +135,17 @@ function renderCards() {
         <div class="metadata">
           <p class="author-date">${card.author} &middot; ${card.date}</p>
           <div class="completion-info">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             <span class="${completionPercent === 100 ? 'percent' : ''}">${completionText}</span>
           </div>
         </div>
         ${quoteHTML}
         <div class="tags-container">${tagsHTML}</div>
 
-        <div class="options-menu" id="menu-${card.id}">
-          <button class="menu-toggle-btn" onclick="toggleMenu('${card.id}', event)">&#8942;</button>
+        <div class="options-menu" id="menu-${index}">
+          <button class="menu-toggle-btn" onclick="toggleMenu(${index}, event)">&#8942;</button>
           <div class="dropdown">
-            <button class="dropdown-item" onclick="editCard('${card.id}')">Edit Book</button>
-            <button class="dropdown-item delete" onclick="deleteCard('${card.id}')">Delete</button>
+            <button class="dropdown-item" onclick="editCard(${index})">Edit Book</button>
+            <button class="dropdown-item delete" onclick="deleteCard(${index})">Delete</button>
           </div>
         </div>
       </div>
@@ -182,10 +154,10 @@ function renderCards() {
   });
 }
 
-//The three dots menue 
-function toggleMenu(id, event) {
-  event.stopPropagation();  //stop the code from effect by the other lists 
-  const currentMenu = document.getElementById(`menu-${id}`);
+//The three dots menue
+function toggleMenu(index, event) {
+  event.stopPropagation();
+  const currentMenu = document.getElementById(`menu-${index}`);
 
   document.querySelectorAll('.options-menu').forEach(menu => {
     if (menu !== currentMenu) menu.classList.remove('active');
@@ -194,15 +166,8 @@ function toggleMenu(id, event) {
   currentMenu.classList.toggle('active');
 }
 
-//close the menues if user click anywhere on the page 
-document.addEventListener('click', () => {
-  document.querySelectorAll('.options-menu').forEach(menu => {
-    menu.classList.remove('active');
-  });
-});
-//Edit the card 
-function editCard(id) {
-  const cardToEdit = cardsData.find(c => c.id === id);
+function editCard(index) {
+  const cardToEdit = cardsData[index];
   if (!cardToEdit) return;
 
   document.getElementById('title').value = cardToEdit.title;
@@ -215,48 +180,61 @@ function editCard(id) {
   document.getElementById('tags').value = cardToEdit.tags.join(', ');
   document.getElementById('quote').value = cardToEdit.quote || '';
 
-  editingCardId = id;
+  editingCardIndex = index;                 
   submitBtn.textContent = 'Update Book';
-  formWrapper.classList.remove('hidden');
-  toggleFormBtn.innerHTML = closeBtnHTML;
+  hideForm.classList.remove('hidden');
+  hideFormBtn.textContent = `+ Close Form`;
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-//add new book to the grid 
 function addBook(cardData) {
-  cardsData.push({ id: Date.now().toString(), ...cardData });
-  renderCards();
+  cardsData.push(cardData);                
+  rearrangeCards();
 }
 
-// delete one card 
-//Create a new cardsData array by keeping every book (card) where the book's ID does not equal (!==) the ID of the book we want to delete.
-function deleteCard(id) {
-  cardsData = cardsData.filter(card => card.id !== id);
-  renderCards();
+function deleteCard(index) {
+  cardsData.splice(index, 1);               
+  rearrangeCards();
 }
 
-// Update an existing book
-function updateBook(id, newData) {
-  const index = cardsData.findIndex(c => c.id === id);
-  
-  if (index !== -1) {
+function updateBook(index, newData) {
+  if (cardsData[index]) {
     cardsData[index] = { ...cardsData[index], ...newData };
-    renderCards();
+    rearrangeCards();
   }
 }
+//===============================================================
+//Event Handelers ===============================================
+//===============================================================
 
-//When click submit button 
+document.addEventListener('click', () => {
+  document.querySelectorAll('.options-menu').forEach(menu => {
+    menu.classList.remove('active');
+  });
+});
+
+hideFormBtn.addEventListener('click', () => {
+  const hiddenForm = hideForm.classList.toggle('hidden');
+  if (hiddenForm) {
+    hideFormBtn.textContent = `+ Add New Book`;
+    cardForm.reset();
+    editingCardIndex = null;                // ← reset flag
+    submitBtn.textContent = 'Create Book';
+  } else {
+    hideFormBtn.textContent = `+ Close Form`;
+  }
+});
+
 cardForm.addEventListener('submit', function (e) {
   e.preventDefault();
-  //second conferm after HTML for the right values entered 
+
   const totalPages = parseInt(document.getElementById('totalPages').value) || 0;
   const readPages = parseInt(document.getElementById('readPages').value) || 0;
   const errorSpan = document.getElementById('pagesError');
   const readPagesInput = document.getElementById('readPages');
   const tagsInput = document.getElementById('tags').value;
-
-  //This is the object will pushed to the acrdsData array 
+  // This is the book data for new book or editing 
   const cardData = {
     title: document.getElementById('title').value,
     author: document.getElementById('author').value,
@@ -268,7 +246,7 @@ cardForm.addEventListener('submit', function (e) {
     totalPages: totalPages,
     readPages: readPages
   };
-  //second confirmations about the input for the pages numbers 
+
   if (readPages > totalPages) {
     errorSpan.style.display = 'block';
     readPagesInput.classList.add('input-error');
@@ -277,19 +255,20 @@ cardForm.addEventListener('submit', function (e) {
     errorSpan.style.display = 'none';
     readPagesInput.classList.remove('input-error');
   }
-  //safety confirmation for the id to not duplicate 
-    if (editingCardId) {
-    updateBook(editingCardId, cardData);
+
+  // editingCardIndex is 0 for the first card — use !== null, not truthiness!
+  if (editingCardIndex !== null) {
+    updateBook(editingCardIndex, cardData);
   } else {
     addBook(cardData);
   }
 
   // Reset UI
   cardForm.reset();
-  editingCardId = null;
+  editingCardIndex = null;
   submitBtn.textContent = 'Create Book';
-  formWrapper.classList.add('hidden');
-  toggleFormBtn.innerHTML = formBtnHTML;
+  hideForm.classList.add('hidden');
+  hideFormBtn.innerHTML = `+ Add New Book`;
 });
 
-renderCards();
+rearrangeCards();

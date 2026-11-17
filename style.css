@@ -82,7 +82,7 @@ body {
     height: 20px;
 }
 
-.form-wrapper {
+.hideForm {
     width: 100%;
     max-width: 1400px;
     overflow: hidden;
@@ -93,7 +93,7 @@ body {
     background-color: var(--bg-header);
 }
 
-.form-wrapper.hidden {
+.hideForm.hidden {
     max-height: 0;
     opacity: 0;
     padding: 0 30px;
